@@ -58,14 +58,14 @@ module mount_bar() {
         prismoid(size1=[pcb_size[0] + case_thickness, 5.170],
                  size2=[pcb_size[0] + case_thickness, 2.000],
                  h=mount_height);
-        move([0, 1.075, mount_height]) #fillet_mask_x(
-            l=pcb_size[0] + case_thickness,
-            r=0.650
-        );
-        move([0, -1.075, mount_height]) #fillet_mask_x(
-            l=pcb_size[0] + case_thickness,
-            r=0.650
-        );
+        place_copies([
+            [0,  1.075, mount_height],
+            [0, -1.075, mount_height]
+        ])
+            #fillet_mask_x(
+                l=pcb_size[0] + case_thickness,
+                r=0.650
+            );
     }
 }
 
