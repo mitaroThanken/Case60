@@ -4,7 +4,7 @@ use <Lib/BOSL/masks.scad>
 use <Lib/BOSL/transforms.scad>
 
 $fa = $preview ? 6 : 1;
-$fs = $preview ? 1 : 0.05;
+$fs = $preview ? 1 : 0.5;
 
 pcb_size = [285.000, 94.600];
 pcb_thickness = 1.600;
