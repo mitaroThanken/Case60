@@ -176,8 +176,6 @@ difference(){
         // 底
         upcube([pcb_size[0], pcb_size[1], case_thickness]);
     }
-//pillars(check = true);
-pillars();
 
     place_copies([
         [0,       pcb_size[1] / 2 + case_thickness,  0],
@@ -212,3 +210,6 @@ pillars();
         #fillet_corner_mask(r=2.000);
 }
 
+
+//pillars(check = true);
+pillars();
