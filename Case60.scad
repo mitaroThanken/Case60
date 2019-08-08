@@ -75,8 +75,16 @@ module mount_bars() {
 }
 
 module mount() {
-    mount_cyls();
-    mount_bars();
+    difference() {
+        union() {
+            mount_bars();
+            mount_cyls();
+        }
+        place_copies(points_cyls)
+            cylinder(h=mount_height + 1, r=0.800);
+        place_copies(points_cyls)
+            up(mount_height) #fillet_hole_mask(r=0.800, fillet=0.400);
+    }
 }
 
 // 載せるものの高さの中心
