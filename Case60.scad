@@ -117,39 +117,43 @@ module pillars(check=false) {
 // 手前
 module wall_front() {
     ymove(-1 * (base_d / 2 * cos(rot - rot_diff) + case_thickness / 4))
-        upcube([pcb_size[0] + case_thickness,     case_thickness / 2, 20.000]);
+        upcube([pcb_size[0] + case_thickness,     case_thickness / 2, 23.000]);
     ymove(-1 * (base_d / 2 * cos(rot - rot_diff) + case_thickness * 3 / 4))
-        upcube([pcb_size[0] + case_thickness * 2, case_thickness / 2, 22.000]);
+        upcube([pcb_size[0] + case_thickness * 2, case_thickness / 2, 25.000]);
 }
 
 // 奥
 module wall_back() {
     ymove(      base_d / 2 * cos(rot - rot_diff) + case_thickness / 4 )
-        upcube([pcb_size[0] + case_thickness, case_thickness / 2, 10.000]);
+        upcube([pcb_size[0] + case_thickness, case_thickness / 2, 13.000]);
     ymove(      base_d / 2 * cos(rot - rot_diff) + case_thickness * 3 / 4 )
-        upcube([pcb_size[0] + case_thickness * 2, case_thickness / 2, 12.000]);
+        upcube([pcb_size[0] + case_thickness * 2, case_thickness / 2, 15.000]);
 }
 
 // 横の壁（低いほう）
 module wall_side_lower() {
-    zmove(8.000)
-        prismoid(
-            size1=[case_thickness / 2, pcb_size[1]],
-            size2=[case_thickness / 2, 0],
-            shift=[0, -1 * pcb_size[1] / 2],
-            h=10.000);
-    upcube([case_thickness / 2, pcb_size[1], 8]);
+    hull() {
+        zmove(13.000)
+            prismoid(
+                size1=[case_thickness / 2, pcb_size[1]],
+                size2=[case_thickness / 2, 0],
+                shift=[0, -1 * pcb_size[1] / 2],
+                h=10.000);
+        upcube([case_thickness / 2, pcb_size[1], 13.000]);
+    }
 }
 
 // 横の壁（高いほう）
 module wall_side_higher() {
-    zmove(10.000)
-        prismoid(
-            size1=[case_thickness / 2, pcb_size[1] + case_thickness],
-            size2=[case_thickness / 2, 0],
-            shift=[0, -1 * (pcb_size[1] + case_thickness) / 2],
-            h=10.000);
-    upcube([case_thickness / 2, pcb_size[1] + case_thickness, 10]);
+    hull() {
+        zmove(15.000)
+            prismoid(
+                size1=[case_thickness / 2, pcb_size[1] + case_thickness],
+                size2=[case_thickness / 2, 0],
+                shift=[0, -1 * (pcb_size[1] + case_thickness) / 2],
+                h=10.000);
+        upcube([case_thickness / 2, pcb_size[1] + case_thickness, 15.000]);
+    }
 }
 
 // 左右の壁
