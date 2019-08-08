@@ -165,15 +165,50 @@ module wall_side(invert=false) {
         wall_side_higher();
 }
 
+difference(){
+    union() {
+        // 壁
+        wall_front();
+        wall_back();
+        wall_side();
+        wall_side(invert=true);
+
+        // 底
+        upcube([pcb_size[0], pcb_size[1], case_thickness]);
+    }
 //pillars(check = true);
 pillars();
 
-/*
-wall_front();
-wall_back();
-wall_side();
-wall_side(invert=true);
-*/
+    place_copies([
+        [0,       pcb_size[1] / 2 + case_thickness,  0],
+        [0, -1 * (pcb_size[1] / 2 + case_thickness), 0]
+    ])
+        #fillet_mask_x(l=pcb_size[0] + case_thickness * 2, r=2.000);
 
-// 底
-upcube([pcb_size[0], pcb_size[1], case_thickness]);
+    place_copies([
+        [      pcb_size[0] / 2 + case_thickness,  0, 0],
+        [-1 * (pcb_size[0] / 2 + case_thickness), 0, 0]
+    ])
+        #fillet_mask_y(l=pcb_size[1] + case_thickness * 2, r=2.000);
+
+    place_copies([
+        [-1 * (pcb_size[0] / 2 + case_thickness), -1 * (pcb_size[1] / 2 + case_thickness), 0],
+        [      pcb_size[0] / 2 + case_thickness,  -1 * (pcb_size[1] / 2 + case_thickness), 0]
+    ])
+        up(25.00 / 2) #fillet_mask_z(l=25.00, r=2.000);
+
+    place_copies([
+        [-1 * (pcb_size[0] / 2 + case_thickness),       pcb_size[1] / 2 + case_thickness,  0],
+        [      pcb_size[0] / 2 + case_thickness,        pcb_size[1] / 2 + case_thickness,  0]
+    ])
+        up(15.00 / 2) #fillet_mask_z(l=15.00, r=2.000);
+
+    place_copies([
+        [-1 * (pcb_size[0] / 2 + case_thickness),       pcb_size[1] / 2 + case_thickness,  0],
+        [-1 * (pcb_size[0] / 2 + case_thickness), -1 * (pcb_size[1] / 2 + case_thickness), 0],
+        [      pcb_size[0] / 2 + case_thickness,        pcb_size[1] / 2 + case_thickness,  0],
+        [      pcb_size[0] / 2 + case_thickness,  -1 * (pcb_size[1] / 2 + case_thickness), 0]
+    ])
+        #fillet_corner_mask(r=2.000);
+}
+
