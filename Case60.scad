@@ -209,19 +209,27 @@ difference(){
     ])
         #fillet_corner_mask(r=2.000);
 
+/*
     place_copies([
-        [0, -1 *  pcb_size[1]                   / 2, 23.00],
-        [0,       pcb_size[1]                   / 2, 13.00]
+        [0, -1 *  pcb_size[1] / 2,                   23.00],
+        [0,       pcb_size[1] / 2,                   13.00]
     ])
-        #fillet_mask_x(l=pcb_size[0], r=case_thickness / 4);
+        #fillet_mask_x(l=pcb_size[0] + case_thickness / 4, r=case_thickness / 4);
 
     place_copies([
         [0, -1 * (pcb_size[1] + case_thickness) / 2, 25.00],
         [0,      (pcb_size[1] + case_thickness) / 2, 15.00],
-        [0, -1 * (pcb_size[1] / 2 + case_thickness), 25.00],
-        [0,      (pcb_size[1] / 2 + case_thickness), 15.00]
     ])
         #fillet_mask_x(l=pcb_size[0] + case_thickness, r=case_thickness / 4);
+        
+    place_copies([
+        [-1 *  pcb_size[0] / 2                  , -1 * pcb_size[1] / 2, 23.00],
+        [      pcb_size[0] / 2                  , -1 * pcb_size[1] / 2, 23.00]
+    ])
+        xrot(-1 * rot - 90) {
+           up(pcb_size[1] / cos(rot) / 2) #fillet_mask(l=pcb_size[1] / cos(rot), r=case_thickness / 4);
+        };
+*/
 }
 
 
