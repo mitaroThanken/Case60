@@ -10,7 +10,7 @@ pcb_size = [285.000, 94.600];
 pcb_thickness = 1.600;
 switch_bottom_h = 5.000; // Cherry MX
 
-case_thickness = 3.000;
+case_thickness = 6.000;
 
 on_tube_h = pcb_thickness + switch_bottom_h;
 
