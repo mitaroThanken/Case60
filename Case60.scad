@@ -77,7 +77,8 @@ module mount_bars() {
 module mount() {
     difference() {
         union() {
-            mount_bars();
+            // 成形を安定させるという意味合いでなければ、バーは不要
+            // mount_bars();
             mount_cyls();
         }
         place_copies(points_cyls)
