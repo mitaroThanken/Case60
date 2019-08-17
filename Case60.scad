@@ -218,28 +218,6 @@ difference(){
         [      pcb_size[0] / 2 + case_thickness,  -1 * (pcb_size[1] / 2 + case_thickness), 0]
     ])
         #fillet_corner_mask(r=2.000);
-
-/*
-    place_copies([
-        [0, -1 *  pcb_size[1] / 2,                   wall_high_inner],
-        [0,       pcb_size[1] / 2,                   13.00]
-    ])
-        #fillet_mask_x(l=pcb_size[0] + case_thickness / 4, r=case_thickness / 4);
-
-    place_copies([
-        [0, -1 * (pcb_size[1] + case_thickness) / 2, wall_high_outer],
-        [0,      (pcb_size[1] + case_thickness) / 2, wall_low_outer],
-    ])
-        #fillet_mask_x(l=pcb_size[0] + case_thickness, r=case_thickness / 4);
-        
-    place_copies([
-        [-1 *  pcb_size[0] / 2                  , -1 * pcb_size[1] / 2, wall_high_inner],
-        [      pcb_size[0] / 2                  , -1 * pcb_size[1] / 2, wall_high_inner]
-    ])
-        xrot(-1 * rot - 90) {
-           up(pcb_size[1] / cos(rot) / 2) #fillet_mask(l=pcb_size[1] / cos(rot), r=case_thickness / 4);
-        };
-*/
 }
 
 
