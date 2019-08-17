@@ -134,10 +134,26 @@ module wall_front() {
 
 // 奥
 module wall_back() {
-    ymove(      base_d / 2 * cos(rot - rot_diff) + case_thickness / 4 )
-        upcube([pcb_size[0] + case_thickness, case_thickness / 2, wall_low_inner]);
-    ymove(      base_d / 2 * cos(rot - rot_diff) + case_thickness * 3 / 4 )
-        upcube([pcb_size[0] + case_thickness * 2, case_thickness / 2, wall_low_outer]);
+    difference() {
+        union() {
+            ymove(      base_d / 2 * cos(rot - rot_diff) + case_thickness / 4 )
+                upcube([pcb_size[0] + case_thickness, case_thickness / 2, wall_low_inner]);
+            ymove(      base_d / 2 * cos(rot - rot_diff) + case_thickness * 3 / 4 )
+                upcube([pcb_size[0] + case_thickness * 2, case_thickness / 2, wall_low_outer]);
+        }
+        move([-124.3, pcb_size[1] / 2 + case_thickness, case_thickness])
+            upcube(size=[20.000, case_thickness * 4,  (wall_low_inner - case_thickness) / 2]);
+        place_copies([
+            [-124.3, pcb_size[1] / 2 + case_thickness, case_thickness],
+            [-124.3, pcb_size[1] / 2 + case_thickness, case_thickness + (wall_low_inner - case_thickness) / 2],
+        ])
+            #fillet_mask_x(l=22.000, r=2.000);
+        place_copies([
+            [-124.3 - (20.000 / 2), pcb_size[1] / 2 + case_thickness, case_thickness + (wall_low_inner - case_thickness) / 4],
+            [-124.3 + (20.000 / 2), pcb_size[1] / 2 + case_thickness, case_thickness + (wall_low_inner - case_thickness) / 4],
+        ])
+            #fillet_mask_z(l = (wall_low_inner - case_thickness) / 2 + 2, r=2.000);
+    }
 }
 
 // 横の壁（低いほう）
