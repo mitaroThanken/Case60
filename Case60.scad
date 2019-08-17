@@ -192,7 +192,7 @@ reset_hole = 10.000;
 module bottom_plate() {
     difference() {
         upcube([case_size[0], case_size[1], case_thickness]);
-        move([-99.410, 0.900, 0]) {
+        move([-1 * pcb_size[0] / 2 + 25.200 + 3.950, -1 * pcb_size[1] / 2 + 27.900 + 20.300, 0.000]) {
             cube(size=[reset_hole, reset_hole, case_thickness * 4], center=true);
         }
     }
