@@ -146,7 +146,7 @@ module wall_back() {
                 upcube([case_size[0] + case_thickness * 2, case_thickness / 2, wall_low_outer]);
         }
         move([-124.3, case_size[1] / 2 + case_thickness, case_thickness])
-            upcube(size=[20.000, case_thickness * 4,  (wall_low_inner - case_thickness) / 2]);
+            upcube(size=[20.000, case_thickness * 4,  (wall_low_inner - case_thickness) * 3 / 5]);
     }
 }
 
