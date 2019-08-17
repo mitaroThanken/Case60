@@ -194,69 +194,59 @@ module bottom_plate() {
         upcube([case_size[0], case_size[1], case_thickness]);
         move([-99.410, 0.900, 0]) {
             cube(size=[reset_hole, reset_hole, case_thickness * 4], center=true);
-            place_copies([
-                [0.000, - reset_hole / 2, case_thickness],
-                [0.000,   reset_hole / 2, case_thickness],
-                [0.000, - reset_hole / 2, 0],
-                [0.000,   reset_hole / 2, 0],
-            ])
-                #fillet_mask_x(l=reset_hole + (2.000 * 2), r=2.000);
-            place_copies([
-                [- reset_hole / 2, 0.000, case_thickness],
-                [  reset_hole / 2, 0.000, case_thickness],
-                [- reset_hole / 2, 0.000, 0],
-                [  reset_hole / 2, 0.000, 0],
-            ])
-                #fillet_mask_y(l=reset_hole + (2.000 * 2), r=2.000);
         }
     }
 }
 
-difference(){
-    union() {
-        // 壁
-        wall_front();
-        wall_back();
-        wall_side();
-        wall_side(invert=true);
+module case(fillet=true, check=false) {
+    difference(){
+        union() {
+            // 壁
+            wall_front();
+            wall_back();
+            wall_side();
+            wall_side(invert=true);
 
-        // 底
-        bottom_plate();
+            // 底
+            bottom_plate();
+        }
+
+        if (fillet) {
+            place_copies([
+                [0,       case_size[1] / 2 + case_thickness,  0],
+                [0, -1 * (case_size[1] / 2 + case_thickness), 0]
+            ])
+                #fillet_mask_x(l=case_size[0] + case_thickness * 2, r=2.000);
+
+            place_copies([
+                [      case_size[0] / 2 + case_thickness,  0, 0],
+                [-1 * (case_size[0] / 2 + case_thickness), 0, 0]
+            ])
+                #fillet_mask_y(l=case_size[1] + case_thickness * 2, r=2.000);
+
+            place_copies([
+                [-1 * (case_size[0] / 2 + case_thickness), -1 * (case_size[1] / 2 + case_thickness), 0],
+                [      case_size[0] / 2 + case_thickness,  -1 * (case_size[1] / 2 + case_thickness), 0]
+            ])
+                up(wall_high_outer / 2) #fillet_mask_z(l=wall_high_outer, r=2.000);
+
+            place_copies([
+                [-1 * (case_size[0] / 2 + case_thickness),       case_size[1] / 2 + case_thickness,  0],
+                [      case_size[0] / 2 + case_thickness,        case_size[1] / 2 + case_thickness,  0]
+            ])
+                up(wall_low_outer / 2) #fillet_mask_z(l=wall_low_outer, r=2.000);
+
+            place_copies([
+                [-1 * (case_size[0] / 2 + case_thickness),       case_size[1] / 2 + case_thickness,  0],
+                [-1 * (case_size[0] / 2 + case_thickness), -1 * (case_size[1] / 2 + case_thickness), 0],
+                [      case_size[0] / 2 + case_thickness,        case_size[1] / 2 + case_thickness,  0],
+                [      case_size[0] / 2 + case_thickness,  -1 * (case_size[1] / 2 + case_thickness), 0]
+            ])
+                #fillet_corner_mask(r=2.000);
+        }
     }
 
-    place_copies([
-        [0,       case_size[1] / 2 + case_thickness,  0],
-        [0, -1 * (case_size[1] / 2 + case_thickness), 0]
-    ])
-        #fillet_mask_x(l=case_size[0] + case_thickness * 2, r=2.000);
-
-    place_copies([
-        [      case_size[0] / 2 + case_thickness,  0, 0],
-        [-1 * (case_size[0] / 2 + case_thickness), 0, 0]
-    ])
-        #fillet_mask_y(l=case_size[1] + case_thickness * 2, r=2.000);
-
-    place_copies([
-        [-1 * (case_size[0] / 2 + case_thickness), -1 * (case_size[1] / 2 + case_thickness), 0],
-        [      case_size[0] / 2 + case_thickness,  -1 * (case_size[1] / 2 + case_thickness), 0]
-    ])
-        up(wall_high_outer / 2) #fillet_mask_z(l=wall_high_outer, r=2.000);
-
-    place_copies([
-        [-1 * (case_size[0] / 2 + case_thickness),       case_size[1] / 2 + case_thickness,  0],
-        [      case_size[0] / 2 + case_thickness,        case_size[1] / 2 + case_thickness,  0]
-    ])
-        up(wall_low_outer / 2) #fillet_mask_z(l=wall_low_outer, r=2.000);
-
-    place_copies([
-        [-1 * (case_size[0] / 2 + case_thickness),       case_size[1] / 2 + case_thickness,  0],
-        [-1 * (case_size[0] / 2 + case_thickness), -1 * (case_size[1] / 2 + case_thickness), 0],
-        [      case_size[0] / 2 + case_thickness,        case_size[1] / 2 + case_thickness,  0],
-        [      case_size[0] / 2 + case_thickness,  -1 * (case_size[1] / 2 + case_thickness), 0]
-    ])
-        #fillet_corner_mask(r=2.000);
+    pillars(check);
 }
 
-
-pillars(check = true);
-//pillars();
+case(fillet=false, check=false);
