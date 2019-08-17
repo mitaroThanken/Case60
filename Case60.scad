@@ -175,6 +175,33 @@ module wall_side(invert=false) {
         wall_side_higher();
 }
 
+// リセットスイッチ用の穴の辺の長さ
+reset_hole = 10.000;
+
+// 底
+module bottom_plate() {
+    difference() {
+        upcube([pcb_size[0], pcb_size[1], case_thickness]);
+        move([-99.410, 0.900, 0]) {
+            cube(size=[reset_hole, reset_hole, case_thickness * 4], center=true);
+            place_copies([
+                [0.000, - reset_hole / 2, case_thickness],
+                [0.000,   reset_hole / 2, case_thickness],
+                [0.000, - reset_hole / 2, 0],
+                [0.000,   reset_hole / 2, 0],
+            ])
+                #fillet_mask_x(l=reset_hole + (2.000 * 2), r=2.000);
+            place_copies([
+                [- reset_hole / 2, 0.000, case_thickness],
+                [  reset_hole / 2, 0.000, case_thickness],
+                [- reset_hole / 2, 0.000, 0],
+                [  reset_hole / 2, 0.000, 0],
+            ])
+                #fillet_mask_y(l=reset_hole + (2.000 * 2), r=2.000);
+        }
+    }
+}
+
 difference(){
     union() {
         // 壁
@@ -184,7 +211,7 @@ difference(){
         wall_side(invert=true);
 
         // 底
-        upcube([pcb_size[0], pcb_size[1], case_thickness]);
+        bottom_plate();
     }
 
     place_copies([
