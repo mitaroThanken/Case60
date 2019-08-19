@@ -131,9 +131,21 @@ wall_low_outer = 20.000;
 // 手前
 module wall_front() {
     ymove(-1 * (case_d / 2 * cos(rot - rot_diff) + case_thickness / 4))
-        upcube([case_size[0] + case_thickness,     case_thickness / 2, wall_high_inner]);
+        sparse_strut(
+            h=wall_high_inner,
+            l=case_size[0] + case_thickness,
+            thick=case_thickness / 2,
+            strut=case_thickness / 2,
+            orient=ORIENT_X,
+            align=V_UP);
     ymove(-1 * (case_d / 2 * cos(rot - rot_diff) + case_thickness * 3 / 4))
-        upcube([case_size[0] + case_thickness * 2, case_thickness / 2, wall_high_outer]);
+        corrugated_wall(
+            h=wall_high_outer,
+            l=case_size[0] + case_thickness * 2,
+            thick=case_thickness / 2,
+            strut=case_thickness / 2,
+            orient=ORIENT_X,
+            align=V_UP);
 }
 
 // 奥
@@ -141,9 +153,21 @@ module wall_back() {
     difference() {
         union() {
             ymove(      case_d / 2 * cos(rot - rot_diff) + case_thickness / 4 )
-                upcube([case_size[0] + case_thickness, case_thickness / 2, wall_low_inner]);
+                sparse_strut(
+                    h=wall_low_inner,
+                    l=case_size[0] + case_thickness * 2,
+                    thick=case_thickness / 2,
+                    strut=case_thickness / 2,
+                    orient=ORIENT_X,
+                    align=V_UP);
             ymove(      case_d / 2 * cos(rot - rot_diff) + case_thickness * 3 / 4 )
-                upcube([case_size[0] + case_thickness * 2, case_thickness / 2, wall_low_outer]);
+                corrugated_wall(
+                    h=wall_low_outer,
+                    l=case_size[0] + case_thickness * 2,
+                    thick=case_thickness / 2,
+                    strut=case_thickness / 2,
+                    orient=ORIENT_X,
+                    align=V_UP);
         }
         move([-124.3, case_size[1] / 2 + case_thickness, case_thickness])
             upcube(size=[20.000, case_thickness * 4,  (wall_low_inner - case_thickness) * 3 / 5]);
@@ -152,28 +176,36 @@ module wall_back() {
 
 // 横の壁（低いほう）
 module wall_side_lower() {
-    hull() {
-        zmove(wall_low_inner)
-            prismoid(
-                size1=[case_thickness / 2, case_size[1]],
-                size2=[case_thickness / 2, 0],
-                shift=[0, -1 * case_size[1] / 2],
-                h=10.000);
-        upcube([case_thickness / 2, case_size[1], wall_low_inner]);
-    }
+    zmove(wall_low_inner)
+        prismoid(
+            size1=[case_thickness / 2, case_size[1]],
+            size2=[case_thickness / 2, 0],
+            shift=[0, -1 * case_size[1] / 2],
+            h=10.000);
+    sparse_strut(
+        h=wall_low_inner,
+        l=case_size[1] + case_thickness,
+        thick=case_thickness / 2,
+        strut=case_thickness / 2,
+        orient=ORIENT_Y,
+        align=V_UP);
 }
 
 // 横の壁（高いほう）
 module wall_side_higher() {
-    hull() {
-        zmove(wall_low_outer)
-            prismoid(
-                size1=[case_thickness / 2, case_size[1] + case_thickness],
-                size2=[case_thickness / 2, 0],
-                shift=[0, -1 * (case_size[1] + case_thickness) / 2],
-                h=10.000);
-        upcube([case_thickness / 2, case_size[1] + case_thickness, wall_low_outer]);
-    }
+    zmove(wall_low_outer)
+        prismoid(
+            size1=[case_thickness / 2, case_size[1] + case_thickness],
+            size2=[case_thickness / 2, 0],
+            shift=[0, -1 * (case_size[1] + case_thickness) / 2],
+            h=10.000);
+    corrugated_wall(
+        h=wall_low_outer,
+        l=case_size[1] + case_thickness,
+        thick=case_thickness / 2,
+        strut=case_thickness / 2,
+        orient=ORIENT_Y,
+        align=V_UP);
 }
 
 // 左右の壁
@@ -191,7 +223,15 @@ reset_hole = 10.000;
 // 底
 module bottom_plate() {
     difference() {
-        upcube([case_size[0], case_size[1], case_thickness]);
+        up(case_thickness / 2)
+            xrot(90)
+                corrugated_wall(
+                    h=case_size[1],
+                    l=case_size[0],
+                    thick=case_thickness,
+                    strut=case_thickness / 2,
+                    orient=ORIENT_X,
+                    align=V_CENTER);
         move([-1 * pcb_size[0] / 2 + 25.200 + 3.950, -1 * pcb_size[1] / 2 + 27.900 + 20.300, 0.000]) {
             cube(size=[reset_hole, reset_hole, case_thickness * 4], center=true);
         }
@@ -249,4 +289,4 @@ module case(fillet=true, check=false) {
     pillars(check);
 }
 
-case(fillet=false, check=false);
+case(fillet=true, check=false);
